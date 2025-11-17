@@ -43,6 +43,10 @@ class ModelConfig:
     query_num_heads: int = 16
     use_flash_query: bool = False
 
+    # Triplane representation
+    triplane_resolution: int = 256  # Spatial resolution of each plane
+    triplane_channels: int = 32  # Feature channels per plane
+
     # latent code
     latent_size: int = 4096  # == num_fps_point + num_fps_salient_point
     latent_dim: int = 64
