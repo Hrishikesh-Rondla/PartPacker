@@ -25,6 +25,7 @@ def make_config():
         salient_attn_mode="dual",
         num_enc_layers=0,
         num_dec_layers=24,
+        use_flash_query=True,
     )
 
     return model_config
