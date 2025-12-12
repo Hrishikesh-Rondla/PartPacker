@@ -275,7 +275,7 @@ class Model(nn.Module):
         xy_coords_grid = xy_coords_grid.unsqueeze(1)  # [B, 1, N, 2]
         triplane_xy = triplanes[0].permute(0, 3, 1, 2)  # [B, C, res, res]
         feat_xy = F.grid_sample(
-        triplane_xy, xy_coords_grid,
+        triplane_xy, xy_coords_grid.to(triplane_xy.dtype),
         mode='bilinear', padding_mode='border', align_corners=False
         )  # [B, C, 1, N]
         feat_xy = feat_xy.squeeze(2).permute(0, 2, 1)  # [B, N, C]
@@ -286,7 +286,7 @@ class Model(nn.Module):
         xz_coords_grid = xz_coords_grid.unsqueeze(1)  # [B, 1, N, 2]
         triplane_xz = triplanes[1].permute(0, 3, 1, 2)  # [B, C, res, res]
         feat_xz = F.grid_sample(
-        triplane_xz, xz_coords_grid,
+        triplane_xz, xz_coords_grid.to(triplane_xz.dtype),
         mode='bilinear', padding_mode='border', align_corners=False
         )  # [B, C, 1, N]
         feat_xz = feat_xz.squeeze(2).permute(0, 2, 1)  # [B, N, C]
@@ -297,7 +297,7 @@ class Model(nn.Module):
         yz_coords_grid = yz_coords_grid.unsqueeze(1)  # [B, 1, N, 2]
         triplane_yz = triplanes[2].permute(0, 3, 1, 2)  # [B, C, res, res]
         feat_yz = F.grid_sample(
-        triplane_yz, yz_coords_grid,
+        triplane_yz, yz_coords_grid.to(triplane_yz.dtype),
         mode='bilinear', padding_mode='border', align_corners=False
         )  # [B, C, 1, N]
         feat_yz = feat_yz.squeeze(2).permute(0, 2, 1)  # [B, N, C]
@@ -366,11 +366,11 @@ class Model(nn.Module):
         xz_coords = coords_01[:, :, [0, 2]] * 2 - 1
         yz_coords = coords_01[:, :, [1, 2]] * 2 - 1
 
-        feat_xy = F.grid_sample(triplanes[0].permute(0, 3, 1, 2), xy_coords.unsqueeze(1),
+        feat_xy = F.grid_sample(triplanes[0].permute(0, 3, 1, 2), xy_coords.unsqueeze(1).to(triplanes[0].dtype),
         mode='bilinear', padding_mode='border', align_corners=False)
-        feat_xz = F.grid_sample(triplanes[1].permute(0, 3, 1, 2), xz_coords.unsqueeze(1),
+        feat_xz = F.grid_sample(triplanes[1].permute(0, 3, 1, 2), xz_coords.unsqueeze(1).to(triplanes[1].dtype),
         mode='bilinear', padding_mode='border', align_corners=False)
-        feat_yz = F.grid_sample(triplanes[2].permute(0, 3, 1, 2), yz_coords.unsqueeze(1),
+        feat_yz = F.grid_sample(triplanes[2].permute(0, 3, 1, 2), yz_coords.unsqueeze(1).to(triplanes[2].dtype),
         mode='bilinear', padding_mode='border', align_corners=False)
 
         feat_avg = (feat_xy + feat_xz + feat_yz) / 3
