@@ -377,4 +377,4 @@ with block:
         outputs=[output_model],
     )
 
-block.launch()
+block.launch(share=True)
