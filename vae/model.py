@@ -164,7 +164,9 @@ class Model(nn.Module):
                 print(f"unexpected key {k} in loaded state dict")
         for k in seen_keys:
             if not seen_keys[k]:
-                print(f"missing key {k} in loaded state dict")
+                # HYBRID: Suppress warnings for expected missing triplanar keys
+                if "triplane_head" not in k and "mlp_query_tri" not in k:
+                    print(f"missing key {k} in loaded state dict")
 
     def fourier_encoding(self, points: torch.Tensor):
         # points: [B, N, 3], float32 for precision
