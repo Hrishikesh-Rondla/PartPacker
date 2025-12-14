@@ -43,7 +43,7 @@ class ModelConfig:
     query_num_heads: int = 16
     use_flash_query: bool = False
 
-    # Triplane representation
+    # Triplane representation (HYBRID ADDITION)
     triplane_resolution: int = 256  # Spatial resolution of each plane
     triplane_channels: int = 32  # Feature channels per plane
 
